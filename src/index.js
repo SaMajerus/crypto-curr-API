@@ -6,7 +6,7 @@ import './css/styles.css';
 function crypto(currency) {
   let promise = new Promise(function(resolve, reject){
     let request = new XMLHttpRequest();
-    const url = `https://api.nomics.com/v1/currencies/ticker?key=${process.env.API_KEY}&ids=${currency}&interval=1d,30d&convert=EUR&per-page=100&page=1`;
+    const url = `https://api.nomics.com/v1/currencies/ticker?key=${process.env.API_KEY}&ids=${currency}&interval=1d,30d&per-page=100&page=1`;
     request.addEventListener("loadend", function(){
       const response = JSON.parse(this.responseText);
       if (this.status === 200) {
@@ -28,9 +28,18 @@ function crypto(currency) {
 
 // UI Logic 
 function printElements(data) {
-  console.log(data[0][0].logo_url);
+  document.querySelector('div#response').innerText = 
+  `Name: ${data[0][0].name}
+  Price:  ${Math.round(data[0][0].price *100) / 100}    
+  Rank: ${data[0][0].rank}
 
-  document.querySelector('div#response').innerText = `Data (price) =  ${data[0][0].price}`;
+  
+  Currency Status:  ${data[0][0].status}
+  Number of currently-occurring trades for this currency:  ${data[0][0].num_exchanges}
+
+  (Last updated: ${data[0][0].price_timestamp})
+  `;
+
   document.getElementById("image").setAttribute("src",`${data[0][0].logo_url}`);  
 }
 

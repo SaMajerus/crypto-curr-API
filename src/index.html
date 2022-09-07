@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html lang="en-US">
+
 <head>
   <title>Crypto-currency API</title>
 </head>
+
 <body>
-  <form id="crypto-input-form">
-    <label for="uIn">Enter the three-letter identifier of the cryptocurrency you want to display:</label>
-    <input id="uIn1" type="text">
-    <button type="submit">Submit</button>
-  </form>
-  <img width="100px" id="image">
-  <div id="response"></div>
+  <div class="container">
+    <form class="center" id="crypto-input-form">
+      <h2>Crypto-currency API</h2>
+      <label for="uIn">Enter the three-letter identifier of the cryptocurrency you want to display:</label><br>
+      <pre>BTC (Bitcoin), ETH (Ethereum Classic), XRP (Ripple), USDT(Tether), USDC(USD Coin),
+      BNB (Binance Coin), BUSD (Binance USD), SOL (Solana), HEX</pre>
+      <input id="uIn1" type="text">
+      <button type="submit">Submit</button>
+    </form>
+    <div class="center">
+      <img width="100px" id="image">
+      <div id="response"></div>
+    </div>
+  </div>
 </body>
+
 </html>
