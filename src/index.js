@@ -1,21 +1,50 @@
 import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
-import Triangle from './triangle.js';
 
-function handleTriangleForm() {
+// Business Logic
+function crypto(currency) {
+  let promise = new Promise(function(resolve, reject){
+    let request = new XMLHttpRequest();
+    const url = `https://api.nomics.com/v1/currencies/ticker?key=${process.env.API_KEY}&ids=${currency}&interval=1d,30d&convert=EUR&per-page=100&page=1`;
+    request.addEventListener("loadend", function(){
+      const response = JSON.parse(this.responseText);
+      if (this.status === 200) {
+        resolve([response, currency,]);
+      } else {
+        reject([this, response, currency]);
+      }
+    });
+    request.open("GET",url,true);
+    request.send();
+  });
+
+  promise.then(function(responseDataArray){
+    printElements(responseDataArray);
+  }, function(errorMessage) {
+    printError(errorMessage);
+  });
+}
+
+// UI Logic 
+function printElements(data) {
+  console.log(data[0][0].logo_url);
+
+  document.querySelector('div#response').innerText = `Data (price) =  ${data[0][0].price}`;
+  document.getElementById("image").setAttribute("src",`${data[0][0].logo_url}`);  
+}
+
+function printError(errorMsg) {
+  document.getElementById('response').innerText = `You have the following Error:  ${errorMsg}`;
+} 
+
+function handleFormSubmission(event) {
   event.preventDefault();
-  document.querySelector('#response').innerText = null;
-  const length2 = parseInt(document.querySelector('#length2').value);
-  const length1 = parseInt(document.querySelector('#length1').value);
-  const length3 = parseInt(document.querySelector('#length3').value);
-  const triangle = new Triangle(length1, length2, length3);
-  const response = triangle.checkType();
-  const pTag = document.createElement("p");
-  pTag.append(response);
-  document.querySelector('#response').append(pTag);
+  const currency = document.querySelector('input#uIn1').value;
+  document.querySelector('input#uIn1').value = null;
+  crypto(currency); 
 }
 
 window.addEventListener("load", function() {
-  document.querySelector("#triangle-checker-form").addEventListener("submit", handleTriangleForm);
+  document.querySelector('form#crypto-input-form').addEventListener("submit", handleFormSubmission);
 });
