@@ -61,15 +61,13 @@ function exchange(to) {   //Calculates the current price of a given cryptocurren
 
 // UI Logic (for 'exchange' Business Logic only)
 function printElements1(data) {
-  document.getElementById("cryptoPrice").removeAttribute("class");
-  const currCryptoPrice = parseFloat(document.getElementById("cryptoPrice").innerHTML);
-  console.log("Data type of 'currCryptoPrice': " + typeof currCryptoPrice);
+  let currCryptoPrice = parseFloat(document.getElementById("cryptoPrice").innerHTML);
   let currRate = parseFloat(data[0].info.rate);
   let calculation = currRate * currCryptoPrice;
-  console.log("Calculation" + calculation);
+
   document.getElementById("exchange-response").innerText = 
   `The exchange rate from USD to ${data[1]} is ${data[0].info.rate} 
-  The price of this crypto currency in ${data[1]} is ${calculation}`;  
+  The price of this crypto currency in ${data[1]} is ${Math.round(calculation * 1000) / 1000}`;  
 }
 
 function printError1(errorMsg) {
@@ -86,17 +84,16 @@ function handleForm2Submission (event) {
 // UI Logic (for 'crypto' Business Logic only)
 function printElements(data) {
   let priceOfCrypto = Math.round(data[0][0].price *100) / 100;
-  console.log("Type of priceOfCrypto:" + typeof priceOfCrypto);
   document.getElementById("cryptoPrice").innerHTML = priceOfCrypto;
   parseFloat(document.getElementById("cryptoPrice").innerHTML);
-  console.log("Value of innerText" + document.getElementById("cryptoPrice").innerHTML);
-  console.log("Type of priceOfCrypto as innerText: " + typeof parseFloat(document.getElementById("cryptoPrice").innerHTML) + document.getElementById("cryptoPrice").innerText);
+  // console.log("Value of innerText" + document.getElementById("cryptoPrice").innerHTML);
+  // console.log("Type of priceOfCrypto as innerText: " + typeof parseFloat(document.getElementById("cryptoPrice").innerHTML) + document.getElementById("cryptoPrice").innerText);
 
   document.getElementById("responseContent").innerText = `
   Name: ${data[0][0].name}
   Rank: ${data[0][0].rank}
 
-  Price: ${Math.round(data[0][0].price *100) / 100}
+  Price: $${Math.round(data[0][0].price *100) / 100}
   Currency Status:  ${data[0][0].status}
   Number of currently-occurring trades for this currency:  ${data[0][0].num_exchanges}
 
@@ -104,9 +101,6 @@ function printElements(data) {
   `;
 
   document.getElementById("image").setAttribute("src",`${data[0][0].logo_url}`);
-  // let retval = data[0][0].price; 
-  // console.log("Data type of 'retval' in function 'printElements': " + typeof retval);  //Checking to see the type of value being returned here.
-  // return data[0][0].price;
 }
 
 function printError(errorMsg) {
